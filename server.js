@@ -13,8 +13,8 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use('/',express.static(path.join(__dirname,'public')));
 app.use('/studentRouter', require('./routes/studentRouter'));
-
-
+app.use('/studentRegister', require('./routes/studentRegister'));
+app.use('/auth', require('./routes/auth'));
 app.all(/^\/.*$/, (req,res) => {
     res.status(404)
     

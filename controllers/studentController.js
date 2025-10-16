@@ -2,7 +2,8 @@ const data = {
         students : require('../data/students.json'),
         setStudents : function(data){ this.students = data }
 }
-
+const fsPromises = require('fs').promises;
+const path = require('path');
 const getAllstudents = (req , res) =>{
         res.json(data.students);
 }
@@ -11,12 +12,16 @@ const getStudentById = (req , res ) =>{
         if(!Student){
                 res.status(400).json({ message : " The Student is Not Found"});
         }else{
-                res.send(Student);   
+                res.send(Student);
         }
 }
-const creatNewStudent = (req , res) =>{
+const creatNewStudent = async (req , res) =>{
+        const Student = data.students.find( stud => stud.id === parseInt(req.params.id));
+        if(Student){
+                res.status(400).json({ message : " The Student is Already There"});
+        }else{
          const newStudent = {
-               id : data.students.length ?  data.students[data.students.length - 1].id+1 : 1,
+               id : data.students[data.students.length - 1].id+1 || 1,
                firstname : req.body.firstname,
                lastname : req.body.lastname,
                department : req.body.department
@@ -25,11 +30,12 @@ const creatNewStudent = (req , res) =>{
                 return res.status(400).json({ message : "There must be Firstname , Lastname and Department" })
         }
         data.setStudents([...data.students , newStudent]);
+        await fsPromises.writeFile(path.join(__dirname , '..' , 'data' ,'students.json'),JSON.stringify(data.students));
         res.status(201).json({
                 mesage : "New Student Created",
                 student : newStudent
-
         });
+}
 }
 
 const UpdatStudents = (req , res) =>{
