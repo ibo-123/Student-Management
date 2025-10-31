@@ -1,4 +1,4 @@
-const { options } = require("../routes/studentRouter");
+const { options } = require("../routes/api/studentRouter");
 
 const whiteList = [
        'https://127.0.0.1:5500'

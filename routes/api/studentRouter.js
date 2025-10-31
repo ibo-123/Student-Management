@@ -5,7 +5,7 @@ const  {
         getStudentById ,
         creatNewStudent ,
         UpdatStudents
-}   =  require('../controllers/studentController.js');
+}   =  require('../../controllers/studentController.js');
 
 const routers = express.Router();
 
