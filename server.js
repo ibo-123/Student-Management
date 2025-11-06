@@ -7,7 +7,7 @@ const ErrorHandler = require('./middleware/errorHandler');
 const corsOption = require('./config/corsConfiguration');
 const PORT = process.env.PORT || 3000;
 const verifyingWeb = require('./middleware/verifyJWT')
-
+const cookiesParser = require('cookie-parser');
 // this controle the loger event 
 app.use(logEvent.logger);
 // this controlle teh web browsers that access or the web sites that use my website
@@ -16,11 +16,15 @@ app.use(cors(corsOption));
 app.use(express.urlencoded({ extended: false }));
 // that makes to work with express
 app.use(express.json());
+
+app.use(cookiesParser());
 // this is manily works for static files like html , 
 app.use('/',express.static(path.join(__dirname,'public')));
 //routers
 app.use('/studentRegister', require('./routes/studentRegister'));
 app.use('/auth', require('./routes/auth'));
+app.use('/refresh', require('./routes/refresh'));
+app.use('/logout' , require('./routes/logout'));
 
 app.use(verifyingWeb);
 app.use('/studentRouter', require('./routes/api/studentRouter'));

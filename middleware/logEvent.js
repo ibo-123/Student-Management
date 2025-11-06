@@ -10,6 +10,7 @@ const logEvent = async (message , logFileName) =>{
 
         const dateTime = format(new Date(), 'yyyyMMdd\t HH:mm:ss');
         const logItem = `${dateTime}\t${uuid()}\t${message}\n`;
+        logFileName = logFileName ||'requestLog.txt'
 
         try{
                 if(!fs.existsSync(path.join(__dirname,'..','logs'))){
